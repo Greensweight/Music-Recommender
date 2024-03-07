@@ -23,7 +23,7 @@ genre5ID_vec=[0]*6
 genre6ID_vec=[0]*6
 lastUserID=-1
 
-user_rating_inTrain=numpy.zeros(shape=(6,3))
+user_rating_inTrain=numpy.zeros(shape=(6,8)) # change shape from (6,3) to (6,8) to account for genres
 
 for line in fTest:
         print("for loop")
