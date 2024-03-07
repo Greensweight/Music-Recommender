@@ -2,10 +2,10 @@
 
 import numpy
 
-dataDir='C:/Users/Marc D/OneDrive - stevens.edu/AAI 627/'
+dataDir='{ADD DIRECTORY PATH HERE}'
 file_name_test=dataDir + 'testTrack_hierarchy.txt'
 file_name_train=dataDir + 'trainIdx2_matrix.txt'
-output_file= dataDir + 'output1.txt'
+output_file= dataDir + 'output1_debug.txt'
 
 fTest= open(file_name_test, 'r')
 fTrain=open(file_name_train, 'r')
