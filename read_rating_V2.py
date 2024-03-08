@@ -2,6 +2,7 @@
 
 import numpy
 
+dataDir='{ADD DIRECTORY PATH HERE}'
 file_name_test='testTrack_hierarchy.txt'
 file_name_train='trainIdx2_matrix.txt'
 output_file= 'output1.txt'
