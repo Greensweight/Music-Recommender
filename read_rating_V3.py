@@ -2,15 +2,21 @@
 
 import numpy
 
-dataDir='{ADD FILE PATH HERE}'
+dataDir='C:/Users/Marc D/OneDrive - stevens.edu/AAI 627/'
 file_name_test='testTrack_hierarchy.txt'
 file_name_train='trainIdx2_matrix.txt'
-output_file= 'output3.txt'
+output_file1= 'output3.txt'
+output_file2= 'output3.csv'
 
 fTest = open(file_name_test, 'r')
 fTrain = open(file_name_train, 'r')
 Trainline = fTrain.readline()
-fOut = open(output_file, 'w')
+fOut_complete = open(output_file1, 'w')
+fOut_submission = open(output_file2, 'w')
+header_complete = "UserID|TrackID|AlbumRating|ArtistRating|Genre1Rating|Genre2Rating|Genre3Rating|Genre4Rating|Genre5Rating|Genre6Rating|RatingValue\n"
+header_submission = "TrackID|Predictor\n"
+fOut_complete.write(header_complete)
+fOut_submission.write(header_submission)
 
 trackID_vec = [0]*6
 albumID_vec = [0]*6
@@ -21,9 +27,10 @@ genre3ID_vec = [0]*6
 genre4ID_vec = [0]*6
 genre5ID_vec = [0]*6
 genre6ID_vec = [0]*6
+rating_vec = [0]*6
 lastUserID = -1
 
-user_rating_inTrain = numpy.zeros(shape=(6,8)) # change shape from (6,3) to (6,8) to account for genres
+user_rating_inTrain = numpy.zeros(shape=(6,8)) # change shape from (6,3) to (6,8) to account for genres 
 
 for line in fTest:
     arr_test = line.strip().split('|')
@@ -74,6 +81,7 @@ for line in fTest:
     genre4ID_vec[ii] = genre4ID
     genre5ID_vec[ii] = genre5ID
     genre6ID_vec[ii] = genre6ID
+    rating_vec[ii] = 0
     ii += 1
     lastUserID = userID
 
@@ -106,11 +114,27 @@ for line in fTest:
                     if trainItemID == genre6ID_vec[nn]:
                         user_rating_inTrain[nn, 7] = trainRating
             if trainUserID > userID:
+                
                 for nn in range(6):
-                    outStr = f"{userID}|{trackID_vec[nn]}|{user_rating_inTrain[nn,0]}|{user_rating_inTrain[nn, 1]}|{user_rating_inTrain[nn, 2]}|{user_rating_inTrain[nn, 3]}|{user_rating_inTrain[nn, 4]}|{user_rating_inTrain[nn, 5]}|{user_rating_inTrain[nn, 6]}|{user_rating_inTrain[nn, 7]}"
-                    fOut.write(outStr + '\n')
+                    rating_vec[nn] = user_rating_inTrain[nn,0] + user_rating_inTrain[nn,1] + user_rating_inTrain[nn,2] + user_rating_inTrain[nn,3] + user_rating_inTrain[nn,4] + user_rating_inTrain[nn,5] + user_rating_inTrain[nn,6] + user_rating_inTrain[nn,7]
+                    outStr=str(userID) + '|' + str(trackID_vec[nn])+ '|' + str(user_rating_inTrain[nn,0]) + '|' + str(user_rating_inTrain[nn, 1]) + '|' + str(user_rating_inTrain[nn, 2]) + '|' + str(user_rating_inTrain[nn, 3]) + '|' + str(user_rating_inTrain[nn, 4]) + '|' + str(user_rating_inTrain[nn, 5]) + '|' + str(user_rating_inTrain[nn, 6]) + '|' + str(user_rating_inTrain[nn, 7]) + '|' + str(rating_vec[nn])
+                    fOut_complete.write(outStr + '\n')
+                    if nn == 5:
+                        rating_vec_sorted = list(reversed(sorted(rating_vec)))
+                        reccomended = rating_vec_sorted[0:3]
+                        reccomend_count = 0
+                        for i in range(6):
+                            if (rating_vec[i] in reccomended) and reccomend_count < 3:
+                                rating_vec[i] = 1
+                                reccomend_count += 1
+                            else:
+                                rating_vec[i] = 0
+                for nn in range(6):
+                    outStr = str(trackID_vec[nn]) + '|' + str(rating_vec[nn])
+                    fOut_submission.write(outStr + '\n')
                 break
 
 fTest.close()
 fTrain.close()
-fOut.close()
+fOut_complete.close()
+fOut_submission.close()
