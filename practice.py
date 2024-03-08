@@ -1,11 +1,11 @@
 #!/usr/bin/env python
-
+import csv
 import numpy
 
 file_name_test='testTrack_hierarchy.txt'
 file_name_train='trainIdx2_matrix.txt'
 output_file= 'output1.txt'
-k_output_file='kaggle_output.txt'
+k_output_file='kaggle_output.csv'
 fTest = open(file_name_test, 'r')
 fTrain = open(file_name_train, 'r')
 Trainline = fTrain.readline()
@@ -13,7 +13,10 @@ fOut = open(output_file, 'w')
 kOut=open(k_output_file,'w')
 header = "UserID|TrackID|AlbumRating|ArtistRating|Genre1Rating|Genre2Rating|Genre3Rating|Genre4Rating|Genre5Rating|Genre6Rating\n"
 fOut.write(header)
-kOut.write("UserID_TrackID,Predictor\n")
+
+csv_writer = csv.writer(kOut)
+# Write the header
+csv_writer.writerow(["TrackID", "Predictor"])
 
 trackID_vec = [0]*6
 albumID_vec = [0]*6
@@ -124,8 +127,7 @@ for line in fTest:
                         else:
                                 rating[nn]=0
                         
-                    koutStr=f"{userID}_{trackID_vec[nn]},{int(rating[nn])}"
-                    kOut.write(koutStr+'\n')
+                    csv_writer.writerow([f"{userID}_{trackID_vec[nn]}", int(rating[nn])])
                     outStr = f"{userID}|{trackID_vec[nn]}|{user_rating_inTrain[nn,0]}|{user_rating_inTrain[nn, 1]}|{user_rating_inTrain[nn, 2]}|{user_rating_inTrain[nn, 3]}|{user_rating_inTrain[nn, 4]}|{user_rating_inTrain[nn, 5]}|{user_rating_inTrain[nn, 6]}|{user_rating_inTrain[nn, 7]}"
                     fOut.write(outStr + '\n')
                 break
