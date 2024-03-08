@@ -2,7 +2,7 @@
 
 import numpy
 
-dataDir='C:/Users/Marc D/OneDrive - stevens.edu/AAI 627/'
+dataDir='{ADD FILE PATH HERE}'
 file_name_test=dataDir + 'testTrack_hierarchy.txt'
 file_name_train=dataDir + 'trainIdx2_matrix.txt'
 output_file= dataDir + 'outputv3.txt'
