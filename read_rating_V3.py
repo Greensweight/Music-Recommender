@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 
+import csv
 import numpy
 
-dataDir='{ADD FILE PATH HERE}'
+dataDir='C:/Users/Marc D/OneDrive - stevens.edu/AAI 627/'
 file_name_test='testTrack_hierarchy.txt'
 file_name_train='trainIdx2_matrix.txt'
 output_file1= 'output3.txt'
@@ -14,9 +15,10 @@ Trainline = fTrain.readline()
 fOut_complete = open(output_file1, 'w')
 fOut_submission = open(output_file2, 'w')
 header_complete = "UserID|TrackID|AlbumRating|ArtistRating|Genre1Rating|Genre2Rating|Genre3Rating|Genre4Rating|Genre5Rating|Genre6Rating|RatingValue\n"
-header_submission = "TrackID|Predictor\n"
+header_submission = ["TrackID", "Predictor"]
 fOut_complete.write(header_complete)
-fOut_submission.write(header_submission)
+csv_writer = csv.writer(fOut_submission)
+csv_writer.writerow(header_submission)
 
 trackID_vec = [0]*6
 albumID_vec = [0]*6
@@ -116,6 +118,7 @@ for line in fTest:
             if trainUserID > userID:
                 
                 for nn in range(6):
+                    # rating_vec[nn] stores the scores that we base the rating on modify the below line with weights or other features to improve score
                     rating_vec[nn] = user_rating_inTrain[nn,0] + user_rating_inTrain[nn,1] + user_rating_inTrain[nn,2] + user_rating_inTrain[nn,3] + user_rating_inTrain[nn,4] + user_rating_inTrain[nn,5] + user_rating_inTrain[nn,6] + user_rating_inTrain[nn,7]
                     outStr=str(userID) + '|' + str(trackID_vec[nn])+ '|' + str(user_rating_inTrain[nn,0]) + '|' + str(user_rating_inTrain[nn, 1]) + '|' + str(user_rating_inTrain[nn, 2]) + '|' + str(user_rating_inTrain[nn, 3]) + '|' + str(user_rating_inTrain[nn, 4]) + '|' + str(user_rating_inTrain[nn, 5]) + '|' + str(user_rating_inTrain[nn, 6]) + '|' + str(user_rating_inTrain[nn, 7]) + '|' + str(rating_vec[nn])
                     fOut_complete.write(outStr + '\n')
@@ -130,8 +133,7 @@ for line in fTest:
                             else:
                                 rating_vec[i] = 0
                 for nn in range(6):
-                    outStr = str(trackID_vec[nn]) + '|' + str(rating_vec[nn])
-                    fOut_submission.write(outStr + '\n')
+                    csv_writer.writerow([f"{userID}_{trackID_vec[nn]}", int(rating_vec[nn])])
                 break
 
 fTest.close()
