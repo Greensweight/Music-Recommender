@@ -1,6 +1,0 @@
-For our submission we...
-
-Added Genres 1-6
-
-adjusted weights of all of the features, with some of the weights 
-
