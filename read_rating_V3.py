@@ -3,7 +3,7 @@
 import csv
 import numpy
 
-dataDir='C:/Users/Marc D/OneDrive - stevens.edu/AAI 627/'
+dataDir='{ADD FILEPATH HERE}'
 file_name_test='testTrack_hierarchy.txt'
 file_name_train='trainIdx2_matrix.txt'
 output_file1= 'output3.txt'
