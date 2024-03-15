@@ -2,8 +2,12 @@
 
 import csv
 import numpy
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+import warnings
+warnings.filterwarnings('ignore')
 
-dataDir='{ADD FILEPATH HERE}'
+dataDir='C:/Users/Marc D/OneDrive - stevens.edu/AAI 627/'
 file_name_test='testTrack_hierarchy.txt'
 file_name_train='trainIdx2_matrix.txt'
 output_file1= 'output3.txt'
@@ -34,7 +38,7 @@ rating_vec = [0]*6
 genre_vec = [0]*7 # 7 genres
 lastUserID = -1
 
-user_rating_inTrain = numpy.zeros(shape=(6,9)) # change shape from (6,3) to (6,9) to account for genres 
+user_rating_inTrain = numpy.zeros(shape=(6,9)) # change shape from (6,3) to (6,15) to account for genres and other features 
 
 for line in fTest:
     arr_test = line.strip().split('|')
@@ -78,7 +82,7 @@ for line in fTest:
         
     if userID != lastUserID:
         ii = 0
-        user_rating_inTrain = numpy.zeros(shape=(6,9)) # Reset for new user
+        user_rating_inTrain = numpy.zeros(shape=(6,15)) # Reset for new user
 
     trackID_vec[ii] = trackID
     albumID_vec[ii] = albumID
@@ -175,12 +179,28 @@ for line in fTest:
                             number_rated_genres += 1
                     max_genre_score = max(genre_vec)
                     min_genre_score = min(genre_vec)
+                    """
+                    if max_genre_score >= 90:
+                        max_genre_score *= 2
+                    if max_genre_score <= 70:
+                        max_genre_score /= 2
+                    if min_genre_score >= 80:
+                        min_genre_score *= 2
+                    if min_genre_score <= 70:
+                        min_genre_score /= 2
+                    """
                     sum_genre = sum(genre_vec)
                     if number_rated_genres == 0:
                         average_genre = 0
                     else:
                         average_genre = sum_genre/number_rated_genres
                     variance_genre = numpy.var(genre_vec)
+                    user_rating_inTrain[nn, 9] = number_rated_genres
+                    user_rating_inTrain[nn, 10] = max_genre_score
+                    user_rating_inTrain[nn, 11] = min_genre_score
+                    user_rating_inTrain[nn, 12] = sum_genre
+                    user_rating_inTrain[nn, 13] = average_genre
+                    user_rating_inTrain[nn, 14] = variance_genre
                     # copy below line with weights to rating_vec to make it easier to see all of the code
                     # + number_rated_genres + max_genre_score + min_genre_score + sum_genre + average_genre + variance_genre
                     # rating_vec[nn] stores the scores that we base the rating on modify the below line with weights or other features to improve score
@@ -188,6 +208,17 @@ for line in fTest:
                     outStr=str(userID) + '|' + str(trackID_vec[nn])+ '|' + str(user_rating_inTrain[nn,0]) + '|' + str(user_rating_inTrain[nn, 1]) + '|' + str(user_rating_inTrain[nn, 2]) + '|' + str(user_rating_inTrain[nn, 3]) + '|' + str(user_rating_inTrain[nn, 4]) + '|' + str(user_rating_inTrain[nn, 5]) + '|' + str(user_rating_inTrain[nn, 6]) + '|' + str(user_rating_inTrain[nn, 7]) + '|' + str(user_rating_inTrain[nn, 8]) + '|' + str(number_rated_genres) + '|' + str(max_genre_score) + '|' + str(min_genre_score) + '|' + str(sum_genre) + '|' + str(average_genre) + '|' + str(variance_genre)
                     outStr = outStr + '|' + str(rating_vec[nn]) # to make sure rating is at end of string
                     fOut_complete.write(outStr + '\n')
+                    # if statment used to segment PCA implementation code
+                    if nn == 5:
+                        scaling = StandardScaler()
+                        scaling.fit(user_rating_inTrain)
+                        scaled_data = scaling.transform(user_rating_inTrain)
+                        pca = PCA(n_components=3)
+                        pca.fit(scaled_data)
+                        pca_user_rating_inTrain = pca.transform(scaled_data)
+                        #overwrite rating_vec for now
+                        for i in range(6):
+                            rating_vec[i] = user_rating_inTrain[i].sum()
                     if nn == 5:
                         rating_vec_sorted = list(reversed(sorted(rating_vec)))
                         reccomended = rating_vec_sorted[0:3]
