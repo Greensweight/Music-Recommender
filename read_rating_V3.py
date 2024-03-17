@@ -7,7 +7,7 @@ from sklearn.preprocessing import StandardScaler
 import warnings
 warnings.filterwarnings('ignore')
 
-dataDir='{ADD FILEPATH HERE}'
+dataDir='C:/Users/Marc D/OneDrive - stevens.edu/AAI 627/'
 file_name_test='testTrack_hierarchy.txt'
 file_name_train='trainIdx2_matrix.txt'
 output_file1= 'output3.txt'
@@ -218,6 +218,22 @@ for line in fTest:
                         pca_user_rating_inTrain = pca.transform(scaled_data)
                         #overwrite rating_vec for now
                         for i in range(6):
+                            # weight control for this method
+                            user_rating_inTrain[i, 0] = user_rating_inTrain[i, 0]*1 # album 
+                            user_rating_inTrain[i, 1] = user_rating_inTrain[i, 1]*1 # artist
+                            user_rating_inTrain[i, 2] = user_rating_inTrain[i, 2]*1 # genre1
+                            user_rating_inTrain[i, 3] = user_rating_inTrain[i, 3]*1 # genre2
+                            user_rating_inTrain[i, 4] = user_rating_inTrain[i, 4]*1 # genre3
+                            user_rating_inTrain[i, 5] = user_rating_inTrain[i, 5]*1 # genre4
+                            user_rating_inTrain[i, 6] = user_rating_inTrain[i, 6]*1 # genre5
+                            user_rating_inTrain[i, 7] = user_rating_inTrain[i, 7]*1 # genre6
+                            user_rating_inTrain[i, 8] = user_rating_inTrain[i, 8]*1 # genre7
+                            user_rating_inTrain[i, 9] = user_rating_inTrain[i, 9]*1 # number_rated_genres
+                            user_rating_inTrain[i, 10] = user_rating_inTrain[i, 10]*1 # max_genre_score
+                            user_rating_inTrain[i, 11] = user_rating_inTrain[i, 11]*1 # min_genre_score
+                            user_rating_inTrain[i, 12] = user_rating_inTrain[i, 12]*1 # sum_genre
+                            user_rating_inTrain[i, 13] = user_rating_inTrain[i, 13]*1 # average_genre
+                            user_rating_inTrain[i, 14] = user_rating_inTrain[i, 14]*1 # variance_genre
                             rating_vec[i] = user_rating_inTrain[i].sum()
                     if nn == 5:
                         rating_vec_sorted = list(reversed(sorted(rating_vec)))
