@@ -38,7 +38,7 @@ rating_vec = [0]*6
 genre_vec = [0]*7 # 7 genres
 lastUserID = -1
 
-user_rating_inTrain = numpy.zeros(shape=(6,9)) # change shape from (6,3) to (6,15) to account for genres and other features 
+user_rating_inTrain = numpy.zeros(shape=(6,15)) # change shape from (6,3) to (6,15) to account for genres and other features 
 
 for line in fTest:
     arr_test = line.strip().split('|')
