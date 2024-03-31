@@ -47,8 +47,8 @@ def matrix_factorization(R,P,Q,K, steps, alpha, beta):
                             return P, Q 
     return P, Q 
 
-
-R = np.array([[5,3,0,1], [4,0,0,1], [1,1,0,5],[0,1,5,4]])
+print("Part 1")
+R = np.array([[5,3,0,1], [4,0,0,1], [1,1,0,5],[1,0,0,4],[0,1,5,4]])
 nRow = np.shape(R)[0]
 nCol = np.shape(R)[1]
 K = 2
@@ -70,3 +70,27 @@ H = model.components_
 nR2 = np.dot(W,H)
 print(R)
 print(nR2)
+print("Part 2")
+R = np.array([[4,3,0,1, 2], [5,0,0,1,0], [1,2,1,5,4],[1,0,0,4,0],[0,1,5,4,0],[5,5,0,0,1]])
+nRow = np.shape(R)[0]
+nCol = np.shape(R)[1]
+K = 3
+P = np.random.random((nRow, K))
+Q = np.random.random((K, nCol))
+steps = 10000
+alpha = 0.0002
+beta = 0.02
+nP = matrix_factorization(R,P,Q,K, steps, alpha, beta)[0]
+nQ = matrix_factorization(R,P,Q,K, steps, alpha, beta)[1]
+nR = np.matmul(nP,nQ)
+print("Using matrix_factorization function")
+print(R)
+print(nR)
+print("Using sklearn NMR method")
+model = NMF(n_components = K, init="random", random_state = 0, max_iter=5000)
+W = model.fit_transform(R)
+H = model.components_
+nR2 = np.dot(W,H)
+print(R)
+print(nR2)
+
