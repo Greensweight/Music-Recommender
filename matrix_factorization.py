@@ -87,7 +87,7 @@ print("Using matrix_factorization function")
 print(R)
 print(nR)
 print("Using sklearn NMR method")
-model = NMF(n_components = K, init="random", random_state = 0, max_iter=5000)
+model = NMF(n_components = K, init="random", random_state = 0, max_iter=10000)
 W = model.fit_transform(R)
 H = model.components_
 nR2 = np.dot(W,H)
