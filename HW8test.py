@@ -1,6 +1,12 @@
 import pandas as pd
 import csv
+import os
+# use after AAI627spark.ipynb generates myprediction.csv
+
+os.remove("C:/Users/Marc D/OneDrive - stevens.edu/AAI 627/myprediction1_kaggle.csv")
 df = pd.read_csv("myprediction.csv")
+df_old = pd.read_csv("output3.csv")
+# output3.csv is the output from read_rating_V3.py
 
 #userID_itemID
 """
@@ -27,14 +33,44 @@ for i in range(len(userID_list)):
             df.at[index,"rating"] = 1.0
         else:
             df.at[index,"rating"] = 0.0
-"""    
+    
 kaggle_dict = {"TrackID": [],"Predictor": []}
 for i in range(len(df)):
     kaggle_dict["TrackID"].append(str(df["userID"][i]) + "_" + str(df["itemID"][i]))
     kaggle_dict["Predictor"].append(df["rating"][i])
+"""
 kaggle_df = pd.DataFrame.from_dict(kaggle_dict)
 
 kaggle_df.to_csv('myprediction1.csv')
+"""
+
+#combined_df = pd.concat([df_old,df]).drop_duplicates().reset_index(drop=True)
+"""
+kaggle_output = 'myprediction1_kaggle.csv'
+fOut_submission = open(kaggle_output, 'w')
+csv_writer = csv.writer(fOut_submission)
+header_submission = ["TrackID", "Predictor"]
+csv_writer.writerow(header_submission)
+for i in range(len(df)):
+    csv_writer.writerow([f"{df['userID'][i]}_{df['itemID'][i]}", int(df["rating"][i])])
+fOut_submission.close()
+"""
+
+df_new = pd.read_csv(kaggle_output)
+
+for i in range(len(df_new)):
+    if df_new["TrackID"][i] in df_old.values:
+        index_old = df_old.loc[df_old["TrackID"] == df_new["TrackID"][i]].index[0]
+        index_new = df_new.loc[df_new["TrackID"] == df_new["TrackID"][i]].index[0]
+        df_old.at[index_old, "TrackID"] = df_new.at[index_new, "TrackID"]
+        df_old.at[index_old, "Predictor"] = df_new.at[index_new, "Predictor"]
+
+#df_old is now updated matrix
+"""
+print("len df_new: " + str(len(df_new)))
+print("after remapping to updated")
+df_new = df_old
+print("len df_new: " + str(len(df_new)))
 """
 
 kaggle_output = 'myprediction1_kaggle.csv'
@@ -43,5 +79,5 @@ csv_writer = csv.writer(fOut_submission)
 header_submission = ["TrackID", "Predictor"]
 csv_writer.writerow(header_submission)
 for i in range(len(df)):
-    csv_writer.writerow([f"{df['userID'][i]}_{df['itemID'][i]}", int(df["rating"][i])])
+    csv_writer.writerow([f"{df_old['TrackID'][i]}", int(df_old["Predictor"][i])])
 fOut_submission.close()
