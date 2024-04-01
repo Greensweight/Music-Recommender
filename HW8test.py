@@ -62,7 +62,7 @@ for i in range(len(df_new)):
     if df_new["TrackID"][i] in df_old.values:
         index_old = df_old.loc[df_old["TrackID"] == df_new["TrackID"][i]].index[0]
         index_new = df_new.loc[df_new["TrackID"] == df_new["TrackID"][i]].index[0]
-        df_old.at[index_old, "TrackID"] = df_new.at[index_new, "TrackID"]
+        #df_old.at[index_old, "TrackID"] = df_new.at[index_new, "TrackID"]
         df_old.at[index_old, "Predictor"] = df_new.at[index_new, "Predictor"]
 
 #df_old is now updated matrix
