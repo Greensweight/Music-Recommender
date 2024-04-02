@@ -5,7 +5,7 @@ import os
 
 # use after AAI627spark.ipynb generates myprediction.csv
 
-os.remove("C:/Users/Marc D/OneDrive - stevens.edu/AAI 627/myprediction1_kaggle.csv")
+os.remove("{delete myprediction1_kaggle.csv}")
 df = pd.read_csv("myprediction.csv")
 df_old = pd.read_csv("output3.csv")
 # output3.csv is the output from read_rating_V3.py
