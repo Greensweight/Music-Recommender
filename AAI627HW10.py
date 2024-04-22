@@ -14,7 +14,7 @@ S = []
 STx = []
 Sensemble = [] 
 
-directory = os.fsencode("C:/Users/Marc D/OneDrive - stevens.edu/AAI 627/ensemble_submissions")
+directory = os.fsencode("{ADD PATH TO FOLDER CONTAINING KAGGLE SUBMISSIONS}")
 
 for file in os.listdir(directory):
     filename = os.fsdecode(file)
