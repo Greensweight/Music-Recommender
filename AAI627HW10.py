@@ -14,7 +14,7 @@ S = []
 STx = []
 ratings = []
 
-directory = os.fsencode("C:/Users/Marc D/OneDrive - stevens.edu/AAI 627/ensemble_submissions")
+directory = os.fsencode("{ADD PATH TO DIRECTORY CONTAINING ONLY THE PREDICTION VECTORS}")
 
 count = 0
 for file in os.listdir(directory):
