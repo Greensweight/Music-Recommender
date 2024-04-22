@@ -12,10 +12,11 @@ files = []
 # holds the prediction vectors from each submission
 S = []
 STx = []
-Sensemble = [] 
+ratings = []
 
-directory = os.fsencode("{ADD PATH TO FOLDER CONTAINING KAGGLE SUBMISSIONS}")
+directory = os.fsencode("C:/Users/Marc D/OneDrive - stevens.edu/AAI 627/ensemble_submissions")
 
+count = 0
 for file in os.listdir(directory):
     filename = os.fsdecode(file)
     files.append(filename)
@@ -27,19 +28,41 @@ for file in os.listdir(directory):
     Pi = accuracy_score
     stx = 2*Pi-1
     STx.append(stx)
+    if count == 0: # only do once
+        ratings = df
+        count +=1
+
+for i in range(len(S)):
+    for j in range(len(S[0])):
+        if S[i][j] == 0:
+            S[i][j] = -1
     
 S = np.array(S)
 STx = np.array(STx)
 
-# memory allocation error, need to break up into sections of 6 for each user to reduce the memory burden
+esh = np.matmul(S, np.transpose(S))
+iesh = np.linalg.inv(esh)
+sesh = np.matmul(np.transpose(S), iesh)
+Sensemble = np.matmul(sesh, STx)
 
-for i in range(len(S[0])):
+
+for i in range(len(Sensemble)):
     if (i+1) % 6 == 0: # 0-5 hold ratings for first user, do matrix calculations per user to make memory load smaller then add predictios to Sensemble
-        S_sub = []
-        for j in range(len(S)):
-            S_sub.append(S[j][i-5:i+1])
-        
+        S_sub_ensemble = Sensemble[i-5:i+1]
+        S_sub_ensemble_sort_max = list(reversed(sorted(S_sub_ensemble)))[0:3]
+        index = 0
+        for j in range(i-5, i):
+            if S_sub_ensemble[index] in S_sub_ensemble_sort_max:
+                ratings.at[j, "Predictor"] = 1
+            else:
+                ratings.at[j, "Predictor"] = 0
+            index += 1
 
+os.remove("kaggle_submission_ensemble.csv")
+
+ratings.to_csv("kaggle_submission_ensemble.csv", index=False)
+        
+        
 
 
 
