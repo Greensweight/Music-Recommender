@@ -31,6 +31,8 @@ for file in os.listdir(directory):
 S = np.array(S)
 STx = np.array(STx)
 
+# memory allocation error, need to break up into sections of 6 for each user to reduce the memory burden
+
 for i in range(len(S[0])):
     if (i+1) % 6 == 0: # 0-5 hold ratings for first user, do matrix calculations per user to make memory load smaller then add predictios to Sensemble
         S_sub = []
@@ -41,4 +43,4 @@ for i in range(len(S[0])):
 
 
 
-# memory allocation error, need to break up into sections of 6 for each user to reduce the memory burden
+
