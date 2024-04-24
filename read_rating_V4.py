@@ -242,10 +242,10 @@ for line in fTest:
                     num_rated_track = len(track_df)
                     sum_track = sum(track_values)
                     try:
-                        average_album = sum_album/num_rated_album
+                        average_track = sum_track/num_rated_track
                     except:
-                        average_album = 0
-                    variance_album = numpy.var(album_values)
+                        average_track = 0
+                    variance_track = numpy.var(track_values)
                     try:
                         album_df = df_train.loc[df_train[0]==int(albumID)].reset_index()
                     except:
