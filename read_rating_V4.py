@@ -9,7 +9,7 @@ import warnings
 import pandas as pd
 warnings.filterwarnings('ignore')
 
-dataDir='C:/Users/Marc D/OneDrive - stevens.edu/AAI 627/'
+dataDir='{ADD PATH TO DATA DIRECTORY}'
 file_name_test='testTrack_hierarchy.txt'
 file_name_train='trainIdx2_matrix.txt'
 output_file1= 'output4.txt'
