@@ -368,7 +368,7 @@ for line in fTest:
                     # rating_vec[nn] stores the scores that we base the rating on modify the below line with weights or other features to improve score
                     features = 45
                     rating_vec[nn] = 0
-                    for i in range(46):
+                    for i in range(features + 1):
                         rating_vec[nn] += user_rating_inTrain[nn,i]
                     #rating_vec[nn] = user_rating_inTrain[nn,0] + user_rating_inTrain[nn,1] + user_rating_inTrain[nn,2] + user_rating_inTrain[nn,3] + user_rating_inTrain[nn,4] + user_rating_inTrain[nn,5] + user_rating_inTrain[nn,6] + user_rating_inTrain[nn,7] + user_rating_inTrain[nn,8] + number_rated_genres + max_genre_score + min_genre_score + sum_genre + average_genre + variance_genre + range_genre + user_rating_inTrain[nn,16] + user_rating_inTrain[nn,17] + user_rating_inTrain[nn,18] + user_rating_inTrain[nn,19] + user_rating_inTrain[nn,20] + user_rating_inTrain[nn,21] + user_rating_inTrain[nn,22] + user_rating_inTrain[nn,23] + user_rating_inTrain[nn,24] +  +
                     #outStr=str(userID) + '|' + str(trackID_vec[nn])+ '|' + str(user_rating_inTrain[nn,0]) + '|' + str(user_rating_inTrain[nn, 1]) + '|' + str(user_rating_inTrain[nn, 2]) + '|' + str(user_rating_inTrain[nn, 3]) + '|' + str(user_rating_inTrain[nn, 4]) + '|' + str(user_rating_inTrain[nn, 5]) + '|' + str(user_rating_inTrain[nn, 6]) + '|' + str(user_rating_inTrain[nn, 7]) + '|' + str(user_rating_inTrain[nn, 8]) + '|' + str(number_rated_genres) + '|' + str(max_genre_score) + '|' + str(min_genre_score) + '|' + str(sum_genre) + '|' + str(average_genre) + '|' + str(variance_genre) + '|' + str(range_genre)
