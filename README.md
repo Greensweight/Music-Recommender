@@ -22,3 +22,25 @@ This project leverages the Yahoo Music dataset, which contains a rich collection
 - numpy
 - scikit-learn
 - matplotlib
+
+## Primary Methods Used
+
+The final project utilized eight primary methods for making recommendations:
+
+1. **Weighted Sums**: This method calculates the weighted sum of user ratings to generate recommendations. It considers the importance of each rating in the overall recommendation process.
+
+2. **Matrix Factorization**: Matrix factorization techniques, such as Singular Value Decomposition (SVD), decompose the user-item interaction matrix into latent factors, allowing for the prediction of missing ratings.
+
+3. **Logistic Regression**: A statistical method used for binary classification problems. In this project, logistic regression is employed to classify user preferences based on their interaction history.
+
+4. **Decision Trees**: A non-parametric supervised learning method used for classification and regression. Decision trees are used to model user preferences by learning decision rules inferred from data features.
+
+5. **Random Forest Classifiers**: An ensemble learning method that constructs multiple decision trees during training and outputs the mode of the classes for classification tasks. This method helps in improving the accuracy and robustness of the recommendations.
+
+6. **Gradient Boosted Tree Classifiers**: An ensemble technique that builds multiple weak learners (decision trees) sequentially, with each tree correcting the errors of the previous ones. This method enhances the predictive performance of the model.
+
+7. **Multi-layer Perceptron Classification**: A type of artificial neural network used for classification tasks. The multi-layer perceptron model captures complex patterns in the data to improve recommendation accuracy.
+
+8. **Ensembling**: Combining the predictions from multiple models to improve overall performance. This method leverages the strengths of different algorithms to generate more accurate and reliable recommendations.
+
+Each of these methods contributes to the robustness and accuracy of the Yahoo Music Recommender, providing a comprehensive approach to predicting user preferences and generating personalized music recommendations.
